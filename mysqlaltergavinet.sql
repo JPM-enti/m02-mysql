@@ -1,0 +1,4 @@
+DROP CONSTRAINT fk_assumpte;
+
+ALTER TABLE assumptes
+	ADD CONSTRAINT fk_assumpte ON DELETE SET NULL;
