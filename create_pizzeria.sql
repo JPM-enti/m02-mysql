@@ -1,0 +1,90 @@
+CREATE TABLE CLIENTS(
+	dni VARCHAR(10) PRIMARY KEY,
+	nom VARCHAR(30) NOT NULL,
+	adreça VARCHAR(100),
+	telèfon VARCHAR(15)
+);
+
+
+CREATE TABLE IF NOT EXISTS COMANDES(
+    num_comanda INT PRIMARY KEY AUTO_INCREMENT,
+    preu_total DECIMAL(4, 2) NOT NULL,
+    data DATE NOT NULL,
+    estat VARCHAR(30) NOT NULL,
+    dni_client VARCHAR(10),
+    FOREIGN KEY (dni_client) REFERENCES CLIENTS(dni)
+);
+
+
+CREATE TABLE IF NOT EXISTS PIZZES(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(30) NOT NULL,
+    preu_base DECIMAL(4, 2) NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS MASSES(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(30) NOT NULL,
+    preu DECIMAL(4, 2) NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS AL·LERGÒGENS(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(30) NOT NULL,
+    descripció TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS TIPUS_INGREDIENTS(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(30) NOT NULL,
+    descripció TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS INGREDIENTS(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(30) NOT NULL,
+    preu DECIMAL(4, 2) NOT NULL,
+    descripció TEXT,
+    id_tipus INT,
+    FOREIGN KEY (id_tipus) REFERENCES TIPUS_INGREDIENTS(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS PIZZES_MASSES(
+    id_pizza INT,
+    id_massa INT,
+    PRIMARY KEY (id_pizza, id_massa),
+    FOREIGN KEY (id_pizza) REFERENCES PIZZES(id),
+    FOREIGN KEY (id_massa) REFERENCES MASSES(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS COMANDES_PIZZES(
+    id_pizza INT,
+    id_comanda INT,
+    PRIMARY KEY (id_pizza, id_comanda),
+    FOREIGN KEY (id_pizza) REFERENCES PIZZES(id),
+    FOREIGN KEY (id_comanda) REFERENCES COMANDES(num_comanda)
+);
+
+
+CREATE TABLE IF NOT EXISTS INGREDIENTS_AL·LERGÒGENS(
+    id_ingredient INT,
+    id_alergogen INT,
+    PRIMARY KEY (id_ingredient, id_alergogen),
+    FOREIGN KEY (id_ingredient) REFERENCES INGREDIENTS(id),
+    FOREIGN KEY (id_alergogen) REFERENCES AL·LERGÒGENS(id)
+);
+
+CREATE TABLE IF NOT EXISTS PIZZES_INGREDIENTS(
+    id_pizza INT,
+    id_ingredient INT,
+    grams_per_ingredient DECIMAL(4, 2),
+    PRIMARY KEY (id_pizza, id_ingredient),
+    FOREIGN KEY (id_pizza) REFERENCES PIZZES(id),
+    FOREIGN KEY (id_ingredient) REFERENCES INGREDIENTS(id)
+);

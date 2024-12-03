@@ -30,3 +30,5 @@ CREATE TABLE if not exists procurador(
 DESCRIBE procurador;
 
 -- SOURCE mysqlaltergavinet.sql
+
+
